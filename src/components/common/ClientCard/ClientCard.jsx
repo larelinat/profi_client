@@ -1,8 +1,8 @@
-import React, {useContext} from 'react';
+import React, /*{useContext}*/ from 'react';
 import {Card} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 
-import {AuthContext} from "../../../context/auth";
+/*import {AuthContext} from "../../../context/auth";*/
 
 const ClientCard = ({client: {id, name, phone, email, birth, address}}) => {
     /*const {user} = useContext(AuthContext);*/
