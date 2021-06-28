@@ -3,7 +3,7 @@ import {useState} from 'react';
 
 export const useForm = (callback, initialState = {}) => {
 
-    const [errors, setErrors] = useState({});
+    /*const [errors, setErrors] = useState({});*/
     const [values, setValues] = useState(initialState);
 
     const onChange = (e) => {

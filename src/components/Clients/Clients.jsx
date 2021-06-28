@@ -8,7 +8,7 @@ import {AuthContext} from "../../context/auth";
 import {Link} from "react-router-dom";
 
 const Clients = () => {
-    const {user} = useContext(AuthContext);
+    /*const {user} = useContext(AuthContext);*/
 
 
     const {loading, data: {getClients: clients} = {}} = useQuery(FETCH_CLIENTS_QUERY);

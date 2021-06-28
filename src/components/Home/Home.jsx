@@ -7,7 +7,7 @@ import {FETCH_CLIENTS_QUERY} from "../../util/graphql";
 import {AuthContext} from "../../context/auth";
 
 const Home = () => {
-    const {user} = useContext(AuthContext);
+    /*const {user} = useContext(AuthContext);*/
 
 
     const {loading, data: {getClients: clients} = {}} = useQuery(FETCH_CLIENTS_QUERY);

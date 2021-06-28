@@ -5,7 +5,7 @@ import {Link} from "react-router-dom";
 import {AuthContext} from "../../../context/auth";
 
 const ClientCard = ({client: {id, name, phone, email, birth, address}}) => {
-    const {user} = useContext(AuthContext);
+    /*const {user} = useContext(AuthContext);*/
     return (
         <Card fluid>
             <Card.Content as={Link} to={`clients/${id}`}>

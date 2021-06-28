@@ -128,7 +128,7 @@ const Client = (props) => {
                                                 Описание:
                                             </Grid.Column>
                                             <Grid.Column width={10}>
-                                                {passport.description}
+                                                {description}
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>

@@ -24,7 +24,7 @@ const AddClient = (props) => {
         description: '',
     })
 
-    const [createClient, {error, loading}] = useMutation(CREATE_CLIENT_MUTATION, {
+    const [createClient, {error, /*loading*/}] = useMutation(CREATE_CLIENT_MUTATION, {
         variables: values,
         update(proxy, result) {
             const data = proxy.readQuery({
