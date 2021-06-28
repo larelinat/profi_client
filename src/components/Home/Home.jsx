@@ -1,4 +1,4 @@
-import React, /*{useContext}*/ from 'react';
+import React from 'react';
 import {useQuery} from "@apollo/client";
 import {Grid, Transition} from "semantic-ui-react";
 import ClientCard from "../common/ClientCard/ClientCard";
