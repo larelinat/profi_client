@@ -4,7 +4,7 @@ import {ApolloClient, ApolloProvider, createHttpLink, InMemoryCache} from '@apol
 import {setContext} from "apollo-link-context";
 
 const httpLink = new createHttpLink({
-    uri: 'http://localhost:5000'
+    uri: 'https://floating-meadow-14878.herokuapp.com/'
 });
 
 const authLink = setContext(() => {
