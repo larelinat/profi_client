@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {useMutation} from "@apollo/client";
 import {Button, Confirm, Icon} from "semantic-ui-react";
 import {withRouter} from "react-router-dom";
@@ -6,9 +6,13 @@ import gql from "graphql-tag";
 
 import {FETCH_CLIENTS_QUERY} from "../../../util/graphql";
 import CustomPopup from "../../common/CustomPopup/CustomPopup";
+import {PagesContext} from "../../../context/pages";
 
+//TODO: починить удаление, обновить изменение кэша
 
 const DeleteClientButton = (props) => {
+
+    const {clientsPage, clientsLimit} = useContext(PagesContext);
     const [confirmOpen, setConfirmOpen] = useState(false);
 
 
@@ -16,12 +20,28 @@ const DeleteClientButton = (props) => {
         update(proxy) {
             setConfirmOpen(false);
             const data = proxy.readQuery({
-                query: FETCH_CLIENTS_QUERY
+                query: FETCH_CLIENTS_QUERY,
+                variables: {
+                    page: clientsPage,
+                    limit: clientsLimit
+                }
             });
+            console.log(data);
             let newData = {
-                getClients: data.getClients.filter(c => c.id !== props.client_id)
+                ...data,
+                getClients:{
+                    ...data.getClients,
+                    clients: data.getClients.clients.filter(c => c.id !== props.client_id)
+                }
             }
-            proxy.writeQuery({query: FETCH_CLIENTS_QUERY, data: newData});
+            proxy.writeQuery({
+                query: FETCH_CLIENTS_QUERY,
+                data: newData,
+                variables: {
+                    page: clientsPage,
+                    limit: clientsLimit
+                }
+            });
             props.history.goBack();
 
         },

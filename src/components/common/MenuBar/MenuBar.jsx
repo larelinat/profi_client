@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react'
-import {Menu} from 'semantic-ui-react'
+import {Grid, Menu} from 'semantic-ui-react'
 import {Link, withRouter} from "react-router-dom";
 
 import {AuthContext} from "../../../context/auth";
@@ -9,18 +9,7 @@ const MenuBar = (props) => {
     const {user, logout} = useContext(AuthContext);
 
     const pathname = window.location.pathname;
-    let path = pathname === '/' ? 'Домашняя страница' : pathname.substr(1);
-
-    switch (path) {
-        case 'login':
-            path = 'Войти';
-            break;
-        case 'register':
-            path = 'Зарегистрироваться';
-            break;
-        default:
-            break;
-    }
+    let path = pathname === '/' ? 'home' : pathname.substr(1);
 
     const onLogout = () => {
         logout();
@@ -32,8 +21,13 @@ const MenuBar = (props) => {
 
     const handleItemClick = (e, {name}) => setActiveItem(name);
 
-    return user ? (
-        <Menu pointing secondary size={'massive'} color={'teal'}>
+    return (
+        <Grid>
+
+            <Grid.Column width={16}>
+            {user ? (
+
+        <Menu pointing secondary size={'massive'} color={'teal'} fluid>
             <Menu.Item
                 name={user.name}
                 active
@@ -42,38 +36,42 @@ const MenuBar = (props) => {
             />
             <Menu.Menu position='right'>
                 <Menu.Item
-                    name='Выйти'
+                    name='logout'
                     onClick={onLogout}
-                />
+                >Выйти</Menu.Item>
             </Menu.Menu>
         </Menu>
     ) : (
-        <Menu pointing secondary size={'massive'} color={'teal'}>
-            <Menu.Item
-                name='Домашняя страница'
-                active={activeItem === 'Домашняя страница'}
+        <Menu pointing secondary size={'massive'} color={'teal'} fluid>
+            {/*<Menu.Item
+                name={'home'}
+                active={activeItem === 'home'}
                 onClick={handleItemClick}
                 as={Link}
                 to={'/'}
-            />
+                >Домашняя страница</Menu.Item>*/}
             <Menu.Menu position='right'>
                 <Menu.Item
-                    name='Войти'
-                    active={activeItem === 'Войти'}
+                    name='login'
+                    active={activeItem === 'login'}
                     onClick={handleItemClick}
                     as={Link}
                     to={'/login'}
-                />
+                >Войти</Menu.Item>
                 <Menu.Item
-                    name='Зарегистрироваться'
-                    active={activeItem === 'Зарегистрироваться'}
+                    name='register'
+                    active={activeItem === 'register'}
                     onClick={handleItemClick}
                     as={Link}
                     to={'/register'}
-                />
+                >Зарегистрироваться</Menu.Item>
             </Menu.Menu>
         </Menu>
-    );
+    )}
+            </Grid.Column>
+
+        </Grid>
+    )
 
 
 }

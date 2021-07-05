@@ -6,6 +6,7 @@ import moment from 'moment';
 import 'moment/locale/ru'
 import {AuthContext} from "../../../context/auth";
 import DeleteButton from "./DeleteClientButton";
+import CustomLoader from "../../common/CustomLoader/CustomLoader";
 
 moment.locale('ru')
 
@@ -13,7 +14,7 @@ const Client = (props) => {
     const clientId = props.match.params.clientId;
     const {user} = useContext(AuthContext);
 
-    const {data: {getClient} = {}} = useQuery(FETCH_CLIENT_QUERY, {
+    const {data: {getClient} = {}, loading} = useQuery(FETCH_CLIENT_QUERY, {
         variables: {
             clientId
         }
@@ -21,7 +22,7 @@ const Client = (props) => {
 
     let clientMarkup;
     if (!getClient) {
-        clientMarkup = <p>Loading...</p>
+        clientMarkup = <CustomLoader loading={loading}/>
     } else {
         const {
             id, name, birth, passport, address,
@@ -30,6 +31,7 @@ const Client = (props) => {
         } = getClient;
         clientMarkup = (
             <Grid>
+
                 <Grid.Row>
                     <Grid.Column>
                         <Card fluid color={'teal'}>
@@ -42,7 +44,7 @@ const Client = (props) => {
                                 <Card.Description>
                                     <Grid celled='internally'>
                                         <Grid.Row>
-                                            <Grid.Column width={5} textAlign={'right'}>
+                                            <Grid.Column width={6} textAlign={'right'}>
                                                 Дата рождения:
                                             </Grid.Column>
                                             <Grid.Column width={10}>
@@ -50,7 +52,7 @@ const Client = (props) => {
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>
-                                            <Grid.Column width={5} textAlign={'right'}>
+                                            <Grid.Column width={6} textAlign={'right'}>
                                                 Адрес регистрации:
                                             </Grid.Column>
                                             <Grid.Column width={10}>
@@ -58,7 +60,7 @@ const Client = (props) => {
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>
-                                            <Grid.Column width={5} textAlign={'right'}>
+                                            <Grid.Column width={6} textAlign={'right'}>
                                                 Email:
                                             </Grid.Column>
                                             <Grid.Column width={10}>
@@ -66,7 +68,7 @@ const Client = (props) => {
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>
-                                            <Grid.Column width={5} textAlign={'right'}>
+                                            <Grid.Column width={6} textAlign={'right'}>
                                                 Номер телефона:
                                             </Grid.Column>
                                             <Grid.Column width={10}>
@@ -74,12 +76,12 @@ const Client = (props) => {
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>
-                                            <Grid.Column width={15} textAlign={'center'}>
+                                            <Grid.Column width={16} textAlign={'center'}>
                                                 <h3>Паспорт</h3>
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>
-                                            <Grid.Column width={5} textAlign={'right'}>
+                                            <Grid.Column width={6} textAlign={'right'}>
                                                 Серия и номер паспорта:
                                             </Grid.Column>
                                             <Grid.Column width={10}>
@@ -87,7 +89,7 @@ const Client = (props) => {
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>
-                                            <Grid.Column width={5} textAlign={'right'}>
+                                            <Grid.Column width={6} textAlign={'right'}>
                                                 Кем и когда выдан:
                                             </Grid.Column>
                                             <Grid.Column width={10}>
@@ -95,7 +97,7 @@ const Client = (props) => {
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>
-                                            <Grid.Column width={5} textAlign={'right'}>
+                                            <Grid.Column width={6} textAlign={'right'}>
                                                 Код подразделения:
                                             </Grid.Column>
                                             <Grid.Column width={10}>
@@ -103,7 +105,7 @@ const Client = (props) => {
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>
-                                            <Grid.Column width={5} textAlign={'right'}>
+                                            <Grid.Column width={6} textAlign={'right'}>
                                                 СНИЛС:
                                             </Grid.Column>
                                             <Grid.Column width={10}>
@@ -111,12 +113,12 @@ const Client = (props) => {
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>
-                                            <Grid.Column width={15} textAlign={'center'}>
+                                            <Grid.Column width={16} textAlign={'center'}>
                                                 <h3>Дополнительно</h3>
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>
-                                            <Grid.Column width={5} textAlign={'right'}>
+                                            <Grid.Column width={6} textAlign={'right'}>
                                                 Откуда:
                                             </Grid.Column>
                                             <Grid.Column width={10}>
@@ -124,7 +126,7 @@ const Client = (props) => {
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>
-                                            <Grid.Column width={5} textAlign={'right'}>
+                                            <Grid.Column width={6} textAlign={'right'}>
                                                 Описание:
                                             </Grid.Column>
                                             <Grid.Column width={10}>
@@ -132,7 +134,7 @@ const Client = (props) => {
                                             </Grid.Column>
                                         </Grid.Row>
                                         <Grid.Row>
-                                            <Grid.Column width={5} textAlign={'right'}>
+                                            <Grid.Column width={6} textAlign={'right'}>
                                                 Менеджер:
                                             </Grid.Column>
                                             <Grid.Column width={10}>

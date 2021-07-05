@@ -1,24 +1,20 @@
 import React from 'react';
-import {useQuery} from "@apollo/client";
-import {Grid, Transition} from "semantic-ui-react";
-import ClientCard from "../common/ClientCard/ClientCard";
-import {Link} from "react-router-dom";
-import {FETCH_CLIENTS_QUERY} from "../../util/graphql";
+import {Grid} from "semantic-ui-react";
 /*import {AuthContext} from "../../context/auth";*/
 
 const Home = () => {
     /*const {user} = useContext(AuthContext);*/
 
 
-    const {loading, data: {getClients: clients} = {}} = useQuery(FETCH_CLIENTS_QUERY);
+    /*const {loading, data: {getClients: clients} = {}} = useQuery(FETCH_CLIENTS_QUERY);*/
 
     return (
         <Grid columns={3}>
             <Grid.Row className="page-title">
-                <h1>Новые клиенты</h1>
-                <Link to={"/clients/add"}>Добавить клиента</Link>
+                <h1>Домашняя страница</h1>
+                {/*<Link to={"/clients/add"}>Добавить клиента</Link>*/}
             </Grid.Row>
-            <Grid.Row>
+            {/*<Grid.Row>
                 {loading ? (
                     <h3>Loading clients...</h3>
                 ) : (
@@ -31,7 +27,7 @@ const Home = () => {
                         ))}
                     </Transition.Group>
                 )}
-            </Grid.Row>
+            </Grid.Row>*/}
 
         </Grid>
     );

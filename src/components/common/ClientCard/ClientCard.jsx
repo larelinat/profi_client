@@ -1,22 +1,29 @@
 import React from 'react';
-import {Card} from "semantic-ui-react";
+import {Card, Grid} from "semantic-ui-react";
 import {Link} from "react-router-dom";
 
 /*import {AuthContext} from "../../../context/auth";*/
 
-const ClientCard = ({client: {id, name, phone, email, birth, address}}) => {
+const ClientCard = ({client: {id, name, phone, email}}) => {
     /*const {user} = useContext(AuthContext);*/
     return (
-        <Card fluid>
-            <Card.Content as={Link} to={`clients/${id}`}>
-                <Card.Header>{name}</Card.Header>
-                <Card.Meta>{phone}</Card.Meta>
-                <Card.Content style={{color: 'teal'}}>{address}</Card.Content>
+        <Card fluid link>
+            <Card.Content as={Link} to={`client/${id}`} style={{color: 'black'}} >
+                <Grid columns={3}>
+                    <Grid.Column>
+                        <Card.Header>{name}</Card.Header>
+                    </Grid.Column>
+                    <Grid.Column>
+                        <Card.Meta>{phone}</Card.Meta>
+                    </Grid.Column>
+                    <Grid.Column>
+                        <Card.Content extra>
+                            {email}
+                        </Card.Content>
+                    </Grid.Column>
+                </Grid>
+            </Card.Content>
 
-            </Card.Content>
-            <Card.Content extra as={"a"} href={`mailto:${email}`}>
-                {email}
-            </Card.Content>
         </Card>
     );
 };

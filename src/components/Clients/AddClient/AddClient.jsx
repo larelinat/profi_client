@@ -1,13 +1,14 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {Button, Form} from "semantic-ui-react";
 import {useForm} from "../../../util/hooks";
 import gql from "graphql-tag";
 import {useMutation} from "@apollo/client";
 
 import {FETCH_CLIENTS_QUERY} from "../../../util/graphql";
+import {PagesContext} from "../../../context/pages";
 
 const AddClient = (props) => {
-
+    const {clientsPage, clientsLimit, setPage} = useContext(PagesContext);
     const {values, onChange, onSubmit} = useForm(createClientCallback, {
         name: '',
         birth: '',
@@ -28,25 +29,44 @@ const AddClient = (props) => {
         variables: values,
         update(proxy, result) {
             const data = proxy.readQuery({
-                query: FETCH_CLIENTS_QUERY
-            });
-            let newData = [...data.getClients];
-            newData = [result.data.createClient, ...newData];
-            proxy.writeQuery({
-                query: FETCH_CLIENTS_QUERY, data: {
-                    ...data,
-                    getClients: {
-                        newData,
-                    }
+                query: FETCH_CLIENTS_QUERY,
+                variables: {
+                    page: clientsPage,
+                    limit: clientsLimit
                 }
+            });
+            console.log(result.data.createClient);
+            let newData = {
+                ...data,
+                getClients: {
+                    ...data.getClients,
+                    clients: [
+                        result.data.createClient,
+                        ...data.getClients.clients
+                    ]
+                }
+            }/*[
+
+                ...data.getClients.clients
+            ];*/
+
+            proxy.writeQuery({
+                query: FETCH_CLIENTS_QUERY,
+                data: newData,
+                variables: {
+                    page: clientsPage,
+                    limit: clientsLimit
+                }
+
             })
-            console.log(result);
+
             props.history.push('/clients');
         }
     })
 
-    function createClientCallback() {
-        createClient();
+    async function createClientCallback() {
+        await setPage(1, 'clients');
+        await createClient();
     }
 
 //TODO: Сделать обработку ошибок
@@ -55,7 +75,6 @@ const AddClient = (props) => {
         <>
             <Form onSubmit={onSubmit} className={"form-container"}>
 
-                <h2>Создать клиента:</h2>
                 <Form.Input
                     type={"text"}
                     label={"ФИО"}
@@ -172,7 +191,7 @@ const AddClient = (props) => {
             {error && (
                 <div className={"ui error message"} style={{marginBottom: 20}}>
                     <ui className="list">
-                        <li>{error.graphQLErrors[0].message}</li>
+                        <li>{error.graphQLErrors}</li>
                     </ui>
                 </div>
             )}

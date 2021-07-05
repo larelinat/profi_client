@@ -81,6 +81,7 @@ const LOGIN_USER = gql`
             name
             createdAt
             token
+            accessLevel
         }
     }
 `
