@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import gql from "graphql-tag";
 import {useQuery} from "@apollo/client";
 import {Card, Grid} from "semantic-ui-react";
@@ -7,18 +7,37 @@ import 'moment/locale/ru'
 import {AuthContext} from "../../../context/auth";
 import DeleteButton from "./DeleteClientButton";
 import CustomLoader from "../../common/CustomLoader/CustomLoader";
+import {UPDATE_CLIENT_SUBSCRIPTION} from "../../../util/subscriptions";
 
 moment.locale('ru')
 
 const Client = (props) => {
     const clientId = props.match.params.clientId;
     const {user} = useContext(AuthContext);
-
-    const {data: {getClient} = {}, loading} = useQuery(FETCH_CLIENT_QUERY, {
+    //TODO: подписка через subscribeToMore
+    const {subscribeToMore, data: {getClient} = {}, loading} = useQuery(FETCH_CLIENT_QUERY, {
         variables: {
             clientId
-        }
+        },
+        fetchPolicy: "no-cache"
     })
+
+    useEffect(() => {
+        let unsubscribe = subscribeToMore({
+            document: UPDATE_CLIENT_SUBSCRIPTION,
+            variables: {id: clientId},
+            updateQuery: (prev, {subscriptionData}) => {
+                if (!subscriptionData) return prev;
+                const updatedClient = subscriptionData.data.updateClient;
+                return Object.assign({}, prev, {
+                    getClient: updatedClient
+                })
+            }
+        })
+
+        if(unsubscribe) return () => unsubscribe();
+
+    }, [clientId, subscribeToMore]);
 
     let clientMarkup;
     if (!getClient) {

@@ -11,21 +11,8 @@ export const FETCH_CLIENTS_QUERY = gql`
             clients{
                 id
                 name
-                birth
-                passport{
-                    series
-                    number
-                    issued_by
-                    date
-                    code
-                }
-                address
                 phone
                 email
-                where_know
-                description
-                createdAt
-                createdBy
             }
             currentPage
             totalPages

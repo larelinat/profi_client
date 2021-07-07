@@ -4,7 +4,6 @@ import {Grid, Pagination, Transition} from "semantic-ui-react";
 import ClientCard from "../common/ClientCard/ClientCard";
 
 import {FETCH_CLIENTS_QUERY} from "../../util/graphql";
-/*import {AuthContext} from "../../context/auth";*/
 import CustomSearch from "../common/Search/CustomSearch";
 import {PagesContext} from "../../context/pages";
 import CustomLoader from "../common/CustomLoader/CustomLoader";
@@ -20,16 +19,42 @@ const Clients = () => {
         setPage(activePage, 'clients');
     };
 
-    const {loading, data: {getClients: {clients, /*currentPage,*/ totalPages} = {}} = {}} = useQuery(FETCH_CLIENTS_QUERY, {
+    const {/*subscribeToMore, */loading, data: {getClients: {clients, /*currentPage,*/ totalPages} = {}} = {}} = useQuery(FETCH_CLIENTS_QUERY, {
         onCompleted(data) {
             setTotalPagesCount(totalPages);
         },
         variables: {
             page: clientsPage,
             limit: clientsLimit
-        }
+        },
+        fetchPolicy: "cache-and-network"
     });
 
+    //TODO: подумать как обновлять кэш фоном
+
+    /*useEffect(()=> {
+
+        /!*let unsubscribe = subscribeToMore({
+            document: NEW_CLIENT_SUBSCRIPTION,
+            updateQuery: (prev, { subscriptionData }) => {
+                if(!subscriptionData) return prev;
+                const newClient = subscriptionData.data.newClient;
+                return Object.assign({}, prev, {
+                    getClients: {
+                        clients: [newClient, ...prev.getClients.clients],
+                        ...prev.getClients,
+                    },
+
+                })
+            },
+        })
+        console.log("subscribe");
+        if(unsubscribe) return () => {
+            console.log("unsubscribe");
+            return unsubscribe();
+        }
+*!/
+    }, [subscribeToMore]);*/
 
     return (
 
