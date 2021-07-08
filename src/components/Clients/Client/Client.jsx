@@ -298,7 +298,7 @@ const Client = (props) => {
                                     </Card.Description>
                                 </Card.Content>
                                 <Card.Content>
-                                    {user && <DeleteButton client_id={values.id} name={values.name}/>}
+                                    {user && <DeleteButton client_id={clientId} name={values.name}/>}
                                     {user && <EditButton
                                         editModeOn={editModeOn}
                                         editMode={editMode}/>}
