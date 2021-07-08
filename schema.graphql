@@ -1,0 +1,104 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+    mutation: Mutation
+    subscription: Subscription
+}
+
+type Client {
+    address: String
+    birth: String
+    createdAt: String!
+    createdBy: String
+    description: String
+    email: String
+    id: ID!
+    name: String!
+    passport: Passport
+    phone: String
+    user: User
+    where_know: String
+}
+
+type ClientsResult {
+    clients: [Client]
+    currentPage: Int
+    totalPages: Int
+}
+
+type Mutation {
+    createClient(clientInput: ClientInput): Client!
+    deleteClient(clientId: ID!): String!
+    login(password: String!, username: String!): User!
+    register(registerInput: RegisterInput): User!
+    updateClient(clientId: ID!, clientInput: ClientInput): Client!
+}
+
+type Passport {
+    code: String!
+    date: String!
+    issued_by: String!
+    number: String!
+    series: String!
+    snils: String
+}
+
+type Query {
+    getClient(clientId: ID!): Client
+    getClients(limit: Int, page: Int, search: String): ClientsResult
+}
+
+type Subscription {
+    newClient: Client!
+    updateClient(id: ID!): Client!
+}
+
+type User {
+    accessLevel: Int!
+    createdAt: String!
+    email: String!
+    id: ID!
+    name: String!
+    phone: String!
+    token: String!
+    username: String!
+}
+
+enum CacheControlScope {
+    PRIVATE
+    PUBLIC
+}
+
+input ClientInput {
+    address: String
+    birth: String
+    description: String
+    email: String
+    name: String
+    passport: PassportInput
+    phone: String
+    where_know: String
+}
+
+input PassportInput {
+    code: String!
+    date: String!
+    issued_by: String!
+    number: String!
+    series: String!
+    snils: String
+}
+
+input RegisterInput {
+    confirmPassword: String!
+    email: String!
+    name: String!
+    password: String!
+    phone: String!
+    username: String!
+}
+
+
+"The `Upload` scalar type represents a file upload."
+scalar Upload
