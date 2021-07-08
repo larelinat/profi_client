@@ -1,5 +1,5 @@
 import {useEffect, useState} from 'react';
-import {useQuery} from "@apollo/client";
+import {useMutation, useQuery} from "@apollo/client";
 
 
 export const useForm = (callback, initialState = {}) => {
@@ -8,11 +8,17 @@ export const useForm = (callback, initialState = {}) => {
     const [values, setValues] = useState(initialState);
 
     const onChange = (e) => {
-        setValues({...values, [e.target.name]: e.target.value});
+        let name = e.target.name.split('.');
+        if (name.length === 1) {
+            setValues({...values, [e.target.name]: e.target.value});
+        } else if (name.length === 2) {
+            setValues({...values, [name[0]]: {...values[name[0]], [name[1]]: e.target.value}});
+        }
     };
 
     const onSubmit = e => {
         e.preventDefault();
+        console.log(values);
         callback();
     };
 
@@ -68,7 +74,7 @@ export const useSearch = (query, limit) => {
     const debouncedValue = useDebounce(value, 500);
 
     const {loading, data} = useQuery(query, {
-        onCompleted(data){
+        onCompleted(data) {
 
         },
         variables: {
@@ -79,15 +85,62 @@ export const useSearch = (query, limit) => {
     });
 
     let result;
-    if(data) {
+    if (data) {
         result = Object.values(data)[0];
-        if(result) {
+        if (result) {
             result = Object.values(result)[1];
         }
     }
 
     return {
         value, setValue, loading, result
+    }
+
+}
+
+
+export const useEditMode = (UPDATE_MUTATION, id, initialState = {}) => {
+    /*
+    * возвращать setValues чтобы обновлять значения
+    * */
+
+    const [editMode, setEditMode] = useState(false);
+    const [values, setValues] = useState({});
+
+    const onChange = (e) => {
+        let name = e.target.name.split('.');
+        if (name.length === 1) {
+            setValues({...values, [e.target.name]: e.target.value});
+        } else if (name.length === 2) {
+            setValues({...values, [name[0]]: {...values[name[0]], [name[1]]: e.target.value}});
+        }
+    };
+
+
+    const [update, {/*error,*/ loading}] = useMutation(UPDATE_MUTATION, {
+        variables: {id, newData: values}
+    })
+
+    const editModeOn = (nowValues) => {
+        setEditMode(true);
+    }
+
+    const fetchAndEditModeOff = (e) => {
+        e.preventDefault();
+        update().then((result) => {
+                setEditMode(false);
+            }
+        )
+    }
+
+    return {
+        editMode,
+        loadingUpdate: loading,
+        fetchAndEditModeOff,
+        editModeOn,
+        values,
+        setValues,
+        onChange
     }
 
 }

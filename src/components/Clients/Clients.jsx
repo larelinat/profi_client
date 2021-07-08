@@ -3,7 +3,7 @@ import {useQuery} from "@apollo/client";
 import {Grid, Pagination, Transition} from "semantic-ui-react";
 import ClientCard from "../common/ClientCard/ClientCard";
 
-import {FETCH_CLIENTS_QUERY} from "../../util/graphql";
+import {FETCH_CLIENTS_QUERY} from "../../util/GraphQL/graphql";
 import CustomSearch from "../common/Search/CustomSearch";
 import {PagesContext} from "../../context/pages";
 import CustomLoader from "../common/CustomLoader/CustomLoader";
@@ -27,11 +27,11 @@ const Clients = () => {
             page: clientsPage,
             limit: clientsLimit
         },
-        fetchPolicy: "cache-and-network"
+        fetchPolicy: "no-cache"
     });
 
     //TODO: подумать как обновлять кэш фоном
-
+    //
     /*useEffect(()=> {
 
         /!*let unsubscribe = subscribeToMore({

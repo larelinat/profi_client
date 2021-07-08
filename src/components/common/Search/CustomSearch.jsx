@@ -1,7 +1,7 @@
 import React from 'react';
 import {Grid, Item, Search} from "semantic-ui-react";
 import {useSearch} from "../../../util/hooks";
-import {SEARCH_CLIENTS_QUERY} from "../../../util/graphql";
+import {SEARCH_CLIENTS_QUERY} from "../../../util/GraphQL/graphql";
 import {withRouter} from "react-router-dom";
 
 const CustomSearch = (props) => {

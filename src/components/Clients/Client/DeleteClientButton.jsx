@@ -4,7 +4,7 @@ import {Button, Confirm, Icon} from "semantic-ui-react";
 import {withRouter} from "react-router-dom";
 import gql from "graphql-tag";
 
-import {FETCH_CLIENTS_QUERY} from "../../../util/graphql";
+import {FETCH_CLIENTS_QUERY} from "../../../util/GraphQL/graphql";
 import CustomPopup from "../../common/CustomPopup/CustomPopup";
 import {PagesContext} from "../../../context/pages";
 

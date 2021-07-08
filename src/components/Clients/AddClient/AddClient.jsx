@@ -4,7 +4,7 @@ import {useForm} from "../../../util/hooks";
 import gql from "graphql-tag";
 import {useMutation} from "@apollo/client";
 
-import {FETCH_CLIENTS_QUERY} from "../../../util/graphql";
+import {FETCH_CLIENTS_QUERY} from "../../../util/GraphQL/graphql";
 import {PagesContext} from "../../../context/pages";
 
 const AddClient = (props) => {
@@ -15,18 +15,20 @@ const AddClient = (props) => {
         address: '',
         phone: '',
         email: '',
-        series: '',
-        number: '',
-        issued_by: '',
-        date: '',
-        code: '',
-        snils: '',
+        passport: {
+            series: '',
+            number: '',
+            issued_by: '',
+            date: '',
+            code: '',
+            snils: '',
+        },
         where_know: '',
         description: '',
     })
 
     const [createClient, {error, /*loading*/}] = useMutation(CREATE_CLIENT_MUTATION, {
-        variables: values,
+        variables: {newClient: values},
         update(proxy, result) {
             const data = proxy.readQuery({
                 query: FETCH_CLIENTS_QUERY,
@@ -36,29 +38,29 @@ const AddClient = (props) => {
                 }
             });
             console.log(result.data.createClient);
-            let newData = {
-                ...data,
-                getClients: {
-                    ...data.getClients,
-                    clients: [
-                        result.data.createClient,
-                        ...data.getClients.clients
-                    ]
-                }
-            }/*[
-
-                ...data.getClients.clients
-            ];*/
-
-            proxy.writeQuery({
-                query: FETCH_CLIENTS_QUERY,
-                data: newData,
-                variables: {
-                    page: clientsPage,
-                    limit: clientsLimit
+            if(data) {
+                let newData = {
+                    ...data,
+                    getClients: {
+                        ...data.getClients,
+                        clients: [
+                            result.data.createClient,
+                            ...data.getClients.clients
+                        ]
+                    }
                 }
 
-            })
+                proxy.writeQuery({
+                    query: FETCH_CLIENTS_QUERY,
+                    data: newData,
+                    variables: {
+                        page: clientsPage,
+                        limit: clientsLimit
+                    }
+
+                })
+            }
+
 
             props.history.push('/clients');
         }
@@ -121,17 +123,17 @@ const AddClient = (props) => {
                         type={"text"}
                         label={"Серия"}
                         placeholder={"Введите серию паспорта"}
-                        name={"series"}
+                        name={"passport.series"}
                         onChange={onChange}
-                        value={values.series}
+                        value={values.passport.series}
                     />
                     <Form.Input
                         type={"text"}
                         label={"Номер"}
                         placeholder={"Введите номер паспорта"}
-                        name={"number"}
+                        name={"passport.number"}
                         onChange={onChange}
-                        value={values.number}
+                        value={values.passport.number}
                     />
                 </Form.Group>
                 <Form.Group>
@@ -139,33 +141,33 @@ const AddClient = (props) => {
                         type={"text"}
                         label={"Кем выдан"}
                         placeholder={"Введите подразделение"}
-                        name={"issued_by"}
+                        name={"passport.issued_by"}
                         onChange={onChange}
-                        value={values.issued_by}
+                        value={values.passport.issued_by}
                     />
                     <Form.Input
                         type={"text"}
                         label={"Код подразделения"}
                         placeholder={"Введите код подразделения"}
-                        name={"code"}
+                        name={"passport.code"}
                         onChange={onChange}
-                        value={values.code}
+                        value={values.passport.code}
                     />
                 </Form.Group>
                 <Form.Group>
                     <Form.Input
                         type={"date"}
                         label={"Дата выдачи"}
-                        name={"date"}
+                        name={"passport.date"}
                         onChange={onChange}
-                        value={values.date}
+                        value={values.passport.date}
                     />
                     <Form.Input
                         type={"text"}
                         label={"СНИЛС"}
-                        name={"snils"}
+                        name={"passport.snils"}
                         onChange={onChange}
-                        value={values.snils}
+                        value={values.passport.snils}
                         placeholder={'СНИЛС'}
                     />
                 </Form.Group>
@@ -200,6 +202,29 @@ const AddClient = (props) => {
 };
 
 const CREATE_CLIENT_MUTATION = gql`
+    mutation createClient($newClient: ClientInput!){
+        createClient(clientInput:$newClient) {
+            name
+            birth
+            address
+            phone
+            email
+            passport{
+                series
+                number
+                issued_by
+                date
+                code
+                snils
+            }
+            id
+            createdBy
+            createdAt
+        }
+    }
+`
+
+/*const CREATE_CLIENT_MUTATION = gql`
     mutation createClient(
         $name: String!
         $birth: String
@@ -251,6 +276,6 @@ const CREATE_CLIENT_MUTATION = gql`
             createdAt
         }
     }
-`
+`*/
 
 export default AddClient;

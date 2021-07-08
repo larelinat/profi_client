@@ -5,6 +5,7 @@ import {WebSocketLink} from '@apollo/client/link/ws';
 import {setContext} from "apollo-link-context";
 import {getMainDefinition} from "@apollo/client/utilities";
 
+
 const httpLink = new createHttpLink({
     uri: 'https://floating-meadow-14878.herokuapp.com/'
 })
@@ -24,12 +25,13 @@ const wsLink = new WebSocketLink({
     }
 });
 
+
 /*const httpLink = new createHttpLink({
     uri: 'http://127.0.0.1:5000/'
-});*/
+});
 
 
-/*const wsLink = new WebSocketLink({
+const wsLink = new WebSocketLink({
     uri: 'ws://127.0.0.1:5000/subscriptions',
     options: {
         lazy: true,
