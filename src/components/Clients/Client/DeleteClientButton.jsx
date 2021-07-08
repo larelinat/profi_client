@@ -26,7 +26,6 @@ const DeleteClientButton = (props) => {
                     limit: clientsLimit
                 }
             });
-            console.log(data);
             let newData = {
                 ...data,
                 getClients:{

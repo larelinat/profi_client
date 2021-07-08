@@ -27,7 +27,7 @@ const Clients = () => {
             page: clientsPage,
             limit: clientsLimit
         },
-        fetchPolicy: "no-cache"
+        fetchPolicy: "network-only"
     });
 
     //TODO: подумать как обновлять кэш фоном
@@ -63,7 +63,6 @@ const Clients = () => {
                 <>
                     <CustomSearch/>
                     <Grid>
-                        {console.log('render')}
                         <CustomLoader loading={loading}/>
 
 
